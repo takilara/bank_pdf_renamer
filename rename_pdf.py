@@ -48,24 +48,20 @@ for file in files:
         #print(content_list)
         if "Kontoutskrift" in content:
             pdf_type = "Kontoutskrift"
-            for line in content_list:
-                if "Kontoutskrift" in line:
-                    #print(line)
-                    matches = re.search(account_line_pattern, line)
-                    #print(matches.group("number"))
-                    account_number = matches.group("account_number")
-                    account_type = matches.group("account_name")
-                    from_date = matches.group("from_date")
-                    to_date_str = matches.group("to_date")
-                    transcript_number = matches.group("number")
-                    to_date = datetime.datetime.strptime(to_date_str, "%d.%m.%Y").strftime("%Y%m%d")
-                    if account_number in konto_alias:
-                        account_name = konto_alias[account_number]
-                    else:
-                        account_name = account_type
+            transcript_matches = re.search(account_line_pattern, content)
+            account_number = transcript_matches.group("account_number")
+            account_type = transcript_matches.group("account_name")
+            from_date = transcript_matches.group("from_date")
+            to_date_str = transcript_matches.group("to_date")
+            transcript_number = transcript_matches.group("number")
+            to_date = datetime.datetime.strptime(to_date_str, "%d.%m.%Y").strftime("%Y%m%d")
+            if account_number in konto_alias:
+                account_name = konto_alias[account_number]
+            else:
+                account_name = account_type
 
 
-                filename = f"{to_date}_{pdf_type}_{account_number}_{account_name}_{transcript_number}.pdf"
+            filename = f"{to_date}_{pdf_type}_{account_number}_{account_name}_{transcript_number}.pdf"
             #print(filename)
         elif "Innbetalingsoversikt" in content:
             pdf_type = "Innbetalingsoversikt"
@@ -81,21 +77,7 @@ for file in files:
             else:
                 account_name = ""
             filename = f"{to_date}_{pdf_type}_{account_number}{account_name}.pdf"
-            #print(filename)
 
-
-            # for line in content_list:
-            #     if "Innbetalingsoversikt" in line:
-            #         #print(line)
-            #         matches = re.search(input_line_pattern, line)
-            #         #print(matches.group("number"))
-            #         account_number = matches.group("account_number")
-            #         if account_number in konto_alias:
-            #             account_name = konto_alias[account_number]
-            #         else:
-            #             account_name = ""
-            #         filename = f"{pdf_type}_{account_number}_{account_name}.pdf"
-        #print(f"{file} -> {output_directory}/{filename}")
         path_dict[file] = f"{output_directory}/{filename}"
 
     #print(pdf_type)
