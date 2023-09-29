@@ -10,7 +10,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--from", dest="from_path", help="Source path (%%P in Total Commander). Default: in", default="in")
-parser.add_argument("--to", dest="to_path", help="Target path (%%N in Total Commander). Default: out", default="out")
+parser.add_argument("--to", dest="to_path", help="Target path (%%T in Total Commander). Default: out", default="out")
 parser.add_argument("--mode", help="copy or move the file.  Default: copy", choices=["copy","move"],default="copy")
 args = parser.parse_args()
 
