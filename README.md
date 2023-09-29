@@ -25,12 +25,22 @@ account_alias= {
 
 # Building Executable
 
+First you must have pyinstaller installed
 ```
 pip install -U pyinstaller
+```
+
+Then cleanup and build the executable
+```
+rmdir dist /s /q
+rmdir build /s /q
 pyinstaller --onefile rename_pdf.py
 ```
 
-Copy this file to somewhere on your path, e.g. c:\windows\system32
+Copy the created file from the dist folder to somewhere on your path, e.g. c:\windows\system32
+```
+copy dist\rename_pdf.exe c:\Windows\System32
+```
 
 # Usage with Total Commander
 
