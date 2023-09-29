@@ -5,6 +5,24 @@ Script that will parse a PDF from banks, then renaming it appropriately
 Only supports one bank:
 * Norway - Sparebank 1 - SR Bank
 
+# Optional Configuration
+
+You can add optional config by creating a config.py file, and adding blocks to this file
+
+## Account aliases
+
+You can add named aliases to account numbers as follows
+
+```python
+config.py
+...
+account_alias= {
+    "1234.56.78901":"Savings",
+    "1111.22.33333":"Billing"
+}
+...
+```
+
 # Building Executable
 
 ```

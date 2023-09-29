@@ -6,6 +6,10 @@ import re
 import datetime
 import shutil
 import argparse
+try:
+    from config import account_alias
+except:
+    account_alias = {}
 
 
 parser = argparse.ArgumentParser()
@@ -26,10 +30,7 @@ mode = args.mode
 account_line_pattern = "\w+\sKontoutskrift nr. (?P<number>\d+) for konto (?P<account_number>[\d\.]+) i perioden (?P<from_date>[\d\.]+) - (?P<to_date>[\d\.]+) (?P<account_name>\w+)"
 input_line_pattern = "Innbetalingsoversikt for konto: (?P<account_number>[\d\.]+)"
 input_date_pattern = "Dato(?P<date>[\d\.]+)"
-konto_alias= {
-    "3201.30.35260":"Bufferkonto",
-    "3209.40.38587":"Matkonto"
-}
+
 
 path_dict = {} # keys=from, value = to
  
@@ -55,8 +56,8 @@ for file in files:
             to_date_str = transcript_matches.group("to_date")
             transcript_number = transcript_matches.group("number")
             to_date = datetime.datetime.strptime(to_date_str, "%d.%m.%Y").strftime("%Y%m%d")
-            if account_number in konto_alias:
-                account_name = konto_alias[account_number]
+            if account_number in account_alias:
+                account_name = account_alias[account_number]
             else:
                 account_name = account_type
 
@@ -72,8 +73,8 @@ for file in files:
             to_date_str = date_matches.group("date")
             to_date = datetime.datetime.strptime(to_date_str, "%d.%m.%Y").strftime("%Y%m%d")
             account_number = details_matches.group("account_number")
-            if account_number in konto_alias:
-                account_name = "_"+konto_alias[account_number]
+            if account_number in account_alias:
+                account_name = "_"+account_alias[account_number]
             else:
                 account_name = ""
             filename = f"{to_date}_{pdf_type}_{account_number}{account_name}.pdf"
